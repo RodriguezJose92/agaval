@@ -238,14 +238,14 @@ body, .containerText, .titleContainer {
 
 @media screen and (max-width:500px) {
 
-.btnsMudiContainer {
-    position: absolute;
-    width: max-content;
-    height: max-content;
-    right: 4%;
-    top: 2%;
-    z-index: 10;
-}
+    .btnsMudiContainer {
+        position: absolute;
+        width: max-content;
+        height: max-content;
+        right: 85%;
+        top: 1%;
+        z-index: 10;
+    }
 
 .btnMudi3D {
     width: 60px;
