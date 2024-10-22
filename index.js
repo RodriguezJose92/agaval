@@ -40,11 +40,6 @@ createStyles(){
     /** Verify element HTML */
     if(document.head.querySelector('#stylesMudiGeneral')){return}
 
-    // Agregar fuente Roboto
-    const linkFont = document.createElement('link');
-    linkFont.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap';
-    linkFont.rel = 'stylesheet';
-    document.head.appendChild(linkFont);
 
     const 
     link = document.createElement('LINK');
