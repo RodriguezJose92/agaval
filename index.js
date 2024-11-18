@@ -322,17 +322,25 @@ class MudiExperience {
 
     };
 
-    observer3DBtnView(){
+    /** Observador del btn Mudi */
+    observer3DBtnView() {
+        console.log('verificando existencia de btn Mudi')
 
-        if( !document.body.querySelector('.btnsMudiContainer')){
-            this.experienceOn(this.skuNumber, this.fatherContainer);
+        if (!document.body.querySelector('.btnsMudiContainer')) {
+
+            const skuElement = document.head.querySelector('[property="product:sku"]').getAttribute('content');
+            const container = document.querySelector('.vtex-store-components-3-x-triggerContainer.vtex-store-components-3-x-triggerContainer--pdp.bg-transparent.pa0.bw0.dib');
+            const realSku = skuElement.replace(/[\s\uFEFF\xA0]+$/g, '').replace(/^[\s\uFEFF\xA0]+/g, '');
+
+            this.experienceOn(realSku, container);
             return;
         };
 
         this.counterObserver++;
-        if(this.counterObserver === 500){
+        if (this.counterObserver === 1500) {
+            console.log('termine la verificación del boton')
             return;
-        }else {
+        } else {
             requestAnimationFrame(this.observer3DBtnView);
         }
     };
@@ -354,10 +362,11 @@ class MudiExperience {
 
         this.experienceOn(realSku, container);
 
-        setTimeout( this.observer3DBtnView, 1500);
+        setTimeout(this.observer3DBtnView, 1500);
     };
 
 };
 
 const mudiExperience = new MudiExperience();
 mudiExperience.verifyProcess();
+
