@@ -7,6 +7,8 @@ class MudiExperience {
         this.skuNumber = null;
         this.fatherContainer = null;
         this.URLActual = null;
+
+        this.counterObserver = 0;
     };
 
     /** Conect mudiServer  ✔️ */
@@ -320,6 +322,21 @@ class MudiExperience {
 
     };
 
+    observer3DBtnView(){
+
+        if( !document.body.querySelector('.btnsMudiContainer')){
+            this.experienceOn(this.skuNumber, this.fatherContainer);
+            return;
+        };
+
+        this.counterObserver++;
+        if(this.counterObserver === 500){
+            return;
+        }else {
+            requestAnimationFrame(this.observer3DBtnView);
+        }
+    };
+
     verifyProcess() {
 
         const skuElement = document.head.querySelector('[property="product:sku"]').getAttribute('content');
@@ -330,13 +347,17 @@ class MudiExperience {
             return;
         };
 
-        const realSku = skuElement.replace(/[\s\uFEFF\xA0]+$/g, '').replace(/^[\s\uFEFF\xA0]+/g, '')
-        mudiExperience.experienceOn(realSku, container);
-        console.log('ejecutando CDN MUDI');
-    }
+        const realSku = skuElement.replace(/[\s\uFEFF\xA0]+$/g, '').replace(/^[\s\uFEFF\xA0]+/g, '');
+
+        this.skuNumber = realSku;
+        this.fatherContainer = container;
+
+        this.experienceOn(realSku, container);
+
+        setTimeout( this.observer3DBtnView, 1500);
+    };
 
 };
 
 const mudiExperience = new MudiExperience();
 mudiExperience.verifyProcess();
-
