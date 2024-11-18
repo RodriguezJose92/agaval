@@ -332,6 +332,7 @@ class MudiExperience {
 
         const realSku = skuElement.replace(/[\s\uFEFF\xA0]+$/g, '').replace(/^[\s\uFEFF\xA0]+/g, '')
         mudiExperience.experienceOn(realSku, container);
+        console.log('ejecutando CDN MUDI');
     }
 
 };
