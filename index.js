@@ -1,72 +1,73 @@
 /** Mudi Experience */
-class MudiExperience{
+class MudiExperience {
 
-constructor(){
-    this.color              = "#ff960d";
-    this.dataSever          = null;
-    this.skuNumber          = null;
-    this.fatherContainer    = null;
-    this.URLActual          = null;
-};
+    constructor() {
+        this.color = "#ff960d";
+        this.dataSever = null;
+        this.skuNumber = null;
+        this.fatherContainer = null;
+        this.URLActual = null;
+    };
 
-/** Conect mudiServer  ✔️ */
-async conectServer(skuNumber){
-    
-    const myBody = {"skus":[skuNumber]};
-    this.skuNumber = skuNumber;
+    /** Conect mudiServer  ✔️ */
+    async conectServer(skuNumber) {
 
-    try {
+        const myBody = { "skus": [skuNumber] };
+        this.skuNumber = skuNumber;
 
-        /** We make the request to the MUDI server */
-        const 
-        request = await fetch('https://mudiview.mudi.com.co:7443/product/getProductsUrl',{
-            method:'POST',
-            headers:{   "Content-type":"application/json",
-                        "tokenapi":"2R29nwjUGZ4uHGBTPQCs"
-            },
-            body: JSON.stringify(myBody)
-        })
-        const 
-        response = await request.json();
-        this.dataServer = response.data[0];
+        try {
 
-    } catch (error) {console.error(`Mudi Error:\n${error}`)}
+            /** We make the request to the MUDI server */
+            const
+                request = await fetch('https://mudiview.mudi.com.co:7443/product/getProductsUrl', {
+                    method: 'POST',
+                    headers: {
+                        "Content-type": "application/json",
+                        "tokenapi": "2R29nwjUGZ4uHGBTPQCs"
+                    },
+                    body: JSON.stringify(myBody)
+                })
+            const
+                response = await request.json();
+            this.dataServer = response.data[0];
 
-};
+        } catch (error) { console.error(`Mudi Error:\n${error}`) }
 
-/** Create Styles ✔️ */
-createStyles(){
+    };
 
-    /** Verify element HTML */
-    if(document.head.querySelector('#stylesMudiGeneral')){return}
+    /** Create Styles ✔️ */
+    createStyles() {
+
+        /** Verify element HTML */
+        if (document.head.querySelector('#stylesMudiGeneral')) { return }
 
 
-    const 
-    link = document.createElement('LINK');
-    link.setAttribute('rel','stylesheet');
-    link.id="stylesMudiGeneral";
-    link.href=`https://cdn.jsdelivr.net/gh/RodriguezJose92/agaval@latest/index.css`; /* custom this path */
-    
-    document.head.appendChild(link);
-};
+        const
+            link = document.createElement('LINK');
+        link.setAttribute('rel', 'stylesheet');
+        link.id = "stylesMudiGeneral";
+        link.href = `https://cdn.jsdelivr.net/gh/RodriguezJose92/agaval@latest/index.css`; /* custom this path */
 
-/** Create button only 3D  ✔️*/
-createBtns(){
+        document.head.appendChild(link);
+    };
 
-    /** Verify btns */
-    document.body.querySelector('.btnsMudiContainer') && document.body.querySelector('.btnsMudiContainer').remove();
+    /** Create button only 3D  ✔️*/
+    createBtns() {
 
-    /** Create Fragment */
-    const fragment = document.createDocumentFragment();
+        /** Verify btns */
+        document.body.querySelector('.btnsMudiContainer') && document.body.querySelector('.btnsMudiContainer').remove();
 
-    /** Create containers */
-    const 
-    containerBtns = document.createElement('DIV');
-    containerBtns.classList.add('btnsMudiContainer');
-    containerBtns.id = 'btnsModule3D'
-    containerBtns.appendChild(this.createTooltip());
-    containerBtns.setAttribute('sku',this.skuNumber)
-    containerBtns.innerHTML +=`
+        /** Create Fragment */
+        const fragment = document.createDocumentFragment();
+
+        /** Create containers */
+        const
+            containerBtns = document.createElement('DIV');
+        containerBtns.classList.add('btnsMudiContainer');
+        containerBtns.id = 'btnsModule3D'
+        containerBtns.appendChild(this.createTooltip());
+        containerBtns.setAttribute('sku', this.skuNumber)
+        containerBtns.innerHTML += `
     <?xml version="1.0" encoding="UTF-8"?>
             <svg id="img3DBtn" class="btnMudi3D" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360">
                 <defs>
@@ -96,29 +97,29 @@ createBtns(){
             </svg>
         `;
 
-    containerBtns.querySelector('#img3DBtn').addEventListener('click',()=>{
-        this.createModal();
-        //this.sendEventInteraction('3D');
-    });
+        containerBtns.querySelector('#img3DBtn').addEventListener('click', () => {
+            this.createModal();
+            //this.sendEventInteraction('3D');
+        });
 
-    fragment.appendChild(containerBtns)
+        fragment.appendChild(containerBtns)
 
-    /** Add DOM */
-    this.fatherContainer.appendChild(fragment)
-};
+        /** Add DOM */
+        this.fatherContainer.appendChild(fragment)
+    };
 
-/** Create Modal ✔️ */
-createModal(){
+    /** Create Modal ✔️ */
+    createModal() {
 
-    /** create variables */
-    let flagAR = false;
+        /** create variables */
+        let flagAR = false;
 
-    /** We create a shell for the MUDI modal */
-    const 
-    modalMudi = document.createElement('DIV');
-    modalMudi.id=`modalMudi`;
-    modalMudi.classList.add(`mudiModal`);
-    modalMudi.innerHTML=`
+        /** We create a shell for the MUDI modal */
+        const
+            modalMudi = document.createElement('DIV');
+        modalMudi.id = `modalMudi`;
+        modalMudi.classList.add(`mudiModal`);
+        modalMudi.innerHTML = `
         <div class="iframeMudi3D">
             <button class="closeModalMudi" style="color:${this.color}">X</button>
             <iframe class="modelMudi" src="${this.dataServer.URL_WEB}"></iframe>
@@ -197,147 +198,144 @@ createModal(){
         </div>
     `;
 
-    /** We close the MUDI modal*/
-    modalMudi.querySelector(`.closeModalMudi`).addEventListener('click',()=>{
-        document.body.querySelector('#modalMudi').remove();
-    });
+        /** We close the MUDI modal*/
+        modalMudi.querySelector(`.closeModalMudi`).addEventListener('click', () => {
+            document.body.querySelector('#modalMudi').remove();
+        });
 
-    /** Init ARExperience */
-    modalMudi.querySelector(`#imgARBtn`).addEventListener('click',()=>{
+        /** Init ARExperience */
+        modalMudi.querySelector(`#imgARBtn`).addEventListener('click', () => {
 
-        if(window.innerWidth>1000){
-            !flagAR 
-            ? (
-                document.body.querySelector('.containerQRMudi').style.right="0%",
-                changeStyleBtnAR(flagAR,this.color),
-                flagAR = !flagAR
-            )
-            : (
-                document.body.querySelector('.containerQRMudi').style.right="-150%",
-                changeStyleBtnAR(flagAR,this.color),
-                flagAR = !flagAR
-            )
-        }
-        else {
-            window.open(`${this.dataServer.URL_AR}`,"_BLANK");
-        } 
-        // flagAR && this.sendEventInteraction('AR')
-    });
+            if (window.innerWidth > 1000) {
+                !flagAR
+                    ? (
+                        document.body.querySelector('.containerQRMudi').style.right = "0%",
+                        changeStyleBtnAR(flagAR, this.color),
+                        flagAR = !flagAR
+                    )
+                    : (
+                        document.body.querySelector('.containerQRMudi').style.right = "-150%",
+                        changeStyleBtnAR(flagAR, this.color),
+                        flagAR = !flagAR
+                    )
+            }
+            else {
+                window.open(`${this.dataServer.URL_AR}`, "_BLANK");
+            }
+            // flagAR && this.sendEventInteraction('AR')
+        });
 
-    /** Verify Style Bttn AR  */
-    function changeStyleBtnAR(flagAR,color){
+        /** Verify Style Bttn AR  */
+        function changeStyleBtnAR(flagAR, color) {
 
-        let icon = document.body.querySelectorAll('.cls-3_modal')
+            let icon = document.body.querySelectorAll('.cls-3_modal')
 
-        flagAR
-        ? (
-            document.body.querySelector('.cls-1_modal').style.fill=color,
-            icon.forEach((icon)=>icon.style.fill="white"),
-            document.body.querySelector('.cls-2_modal').style.fill="white"
-        ) 
-        : (
-            document.body.querySelector('.cls-1_modal').style.fill="white",
-            icon.forEach((icon)=>icon.style.fill=color),
-            document.body.querySelector('.cls-2_modal').style.fill=color
-        )
+            flagAR
+                ? (
+                    document.body.querySelector('.cls-1_modal').style.fill = color,
+                    icon.forEach((icon) => icon.style.fill = "white"),
+                    document.body.querySelector('.cls-2_modal').style.fill = "white"
+                )
+                : (
+                    document.body.querySelector('.cls-1_modal').style.fill = "white",
+                    icon.forEach((icon) => icon.style.fill = color),
+                    document.body.querySelector('.cls-2_modal').style.fill = color
+                )
+        };
+
+        document.body.appendChild(modalMudi)
     };
 
-    document.body.appendChild(modalMudi)
-};
+    /** create tooltip ✔️ */
+    createTooltip() {
+        const
+            tooltip = document.createElement('P');
+        tooltip.classList.add('tooltipMudi');
+        tooltip.innerHTML = `<b>¡Nuevo!</b> Descubre como se ve este producto en 3D y realidad aumentada en tu espacio`;
 
-/** create tooltip ✔️ */
-createTooltip(){
-    const 
-    tooltip = document.createElement('P');
-    tooltip.classList.add('tooltipMudi');
-    tooltip.innerHTML=`<b>¡Nuevo!</b> Descubre como se ve este producto en 3D y realidad aumentada en tu espacio`;
+        setTimeout(() => {
+            document.body.querySelector('.tooltipMudi').remove();
+        }, 9000)
 
-    setTimeout(()=>{
-        document.body.querySelector('.tooltipMudi').remove();
-    },9000)
+        return tooltip;
+    };
 
-    return tooltip;
-};
+    /** Send Evnt Interacción  ✔️ */
+    sendEventInteraction(eventName) {
 
-/** Send Evnt Interacción  ✔️ */
-sendEventInteraction(eventName){
+        let OSdevice;
 
-    let OSdevice;
+        if (navigator.userAgent.includes('Android')) OSdevice = 'Android';
+        else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) OSdevice = "IOS";
+        else OSdevice = 'DESK';
 
-    if (navigator.userAgent.includes('Android')) OSdevice = 'Android';
-    else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) OSdevice = "IOS";
-    else OSdevice = 'DESK';
+        window.dataLayer && dataLayer.push({
+            event: `Evento de interaccion ${eventName}`,
+            valorMudi: 1,
+            sku: this.skuNumber,
+            category: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[1].children[0].innerHTML,
+            subCategory: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[2].children[0].innerHTML,
+            sistemaOperativo: OSdevice
+        })
+    };
 
-    window.dataLayer && dataLayer.push({
-        event: `Evento de interaccion ${eventName}`,
-        valorMudi: 1,
-        sku: this.skuNumber,
-        category: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[1].children[0].innerHTML,
-        subCategory: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[2].children[0].innerHTML,
-        sistemaOperativo: OSdevice
-    })
-};
+    /** viewer event Mudi GTM  */
+    sendEventViewer() {
+        let OSdevice;
 
-/** viewer event Mudi GTM  */
-sendEventViewer(){
-    let OSdevice;
+        if (navigator.userAgent.includes('Android')) OSdevice = 'Android';
+        else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) OSdevice = "IOS";
+        else OSdevice = 'DESK';
 
-    if (navigator.userAgent.includes('Android')) OSdevice = 'Android';
-    else if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) OSdevice = "IOS";
-    else OSdevice = 'DESK';
+        window.dataLayer && dataLayer.push({
+            event: `visualizacion_botones`,
+            valorMudi: 1,
+            sku: this.skuNumber,
+            category: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[1].children[0].innerHTML,
+            subCategory: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[2].children[0].innerHTML,
+            sistemaOperativo: OSdevice
+        })
+    };
 
-    window.dataLayer && dataLayer.push({
-        event: `visualizacion_botones`,
-        valorMudi: 1,
-        sku: this.skuNumber,
-        category: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[1].children[0].innerHTML,
-        subCategory: document.body.querySelector('.Breadcrumbs-module_breadcrumb__3lLwJ').children[2].children[0].innerHTML,
-        sistemaOperativo: OSdevice
-    })
-};
+    /** verifyExperience  ✔️ */
+    async experienceOn(skuNumber, fatherContainer) {
 
-/** verifyExperience  ✔️ */
-async experienceOn(skuNumber, fatherContainer){
+        /** Verify father Container */
+        fatherContainer && (this.fatherContainer = fatherContainer);
 
-    /** Verify father Container */
-    fatherContainer && (this.fatherContainer = fatherContainer);
+        /** Response Mudi server */
+        await this.conectServer(skuNumber);
 
-    /** Response Mudi server */
-    await this.conectServer(skuNumber);
+        /** verify process */
+        if (!this.dataServer) {
+            document.body.querySelector('.btnsMudiContainer') && document.body.querySelector('.btnsMudiContainer').remove();
+            console.warn(`El sku: ${skuNumber} no posee experiencias de 3D  y AR`)
+            return;
+        }
 
-    /** verify process */
-    if (!this.dataServer){
-        document.body.querySelector('.btnsMudiContainer') && document.body.querySelector('.btnsMudiContainer').remove();
-        console.warn(`El sku: ${skuNumber} no posee experiencias de 3D  y AR`)
-        return;
+        /** Create Styles */
+        this.createStyles();
+        /** Create Buttons */
+        this.createBtns();
+
+    };
+
+    verifyProcess() {
+
+        const skuElement = document.head.querySelector('[property="product:sku"]').getAttribute('content');
+        const container = document.querySelector('.vtex-store-components-3-x-triggerContainer.vtex-store-components-3-x-triggerContainer--pdp.bg-transparent.pa0.bw0.dib');
+
+        if (!skuElement || !container) {
+            requestAnimationFrame(this.verifyProcess);
+            return;
+        };
+
+        const realSku = skuElement.replace(/[\s\uFEFF\xA0]+$/g, '').replace(/^[\s\uFEFF\xA0]+/g, '')
+        mudiExperience.experienceOn(realSku, container);
     }
-
-    /** Create Styles */
-    this.createStyles();
-    /** Create Buttons */
-    this.createBtns();
-
-};
 
 };
 
 const mudiExperience = new MudiExperience();
-setTimeout(() => {
-    const skuElement = document.head.querySelector('[property="product:sku"]');
-    if (skuElement) {
-        let sku = skuElement.getAttribute('content');
+mudiExperience.verifyProcess();
 
-        // Eliminar cualquier espacio o carácter no deseado
-        sku = sku.replace(/[\s\uFEFF\xA0]+$/g, '').replace(/^[\s\uFEFF\xA0]+/g, '');
-
-        const container = document.querySelector('.vtex-store-components-3-x-triggerContainer.vtex-store-components-3-x-triggerContainer--pdp.bg-transparent.pa0.bw0.dib');
-        
-        if (sku && container) {
-            mudiExperience.experienceOn(sku, container);
-        } else {
-            console.error('Error: No se pudo encontrar el SKU o el contenedor.');
-        }
-    } else {
-        console.error('Error: No se pudo encontrar el elemento SKU.');
-    }
-}, 1500);
